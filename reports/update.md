@@ -27,9 +27,13 @@ The goal of this project is to make a dynamically allocated array. For out MVP, 
   - Set
   - Get
   - Free
+  Opional:
   - Info (size, type?, ...)
+  - Duplicate
+
 - What function do we need internally:
   - Reallocate space
+  - append
 
 
 ## Performance comparison:
