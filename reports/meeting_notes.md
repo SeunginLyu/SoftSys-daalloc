@@ -5,7 +5,7 @@
 - Make API and block diagram of dalloc
 - What will be our pull request process?
   - Peer programming + 3rd reviewer?
-  - Independent implementations + 2 peer reviewers?
+  - [x] Independent implementations + 2 peer reviewers?
   - Anything goes just merge it in?
 - Create kanban cards and assign them
 - How to continually write `update.md`?
@@ -21,13 +21,39 @@ One reviewer to merge in, everyone is expected to read all pull requests.
 For first pass, we will use an array to keep track of ids.
   - Make this dynamically long
 
+![image1](./Feb_24_1.png)
+![image2](./Feb_24_2.png)
+
+
 ##### Stretch goals:
 Prepend values: (allocating empty space before the array and boundry checking both ways)
 
-Arbitrary types:
+##### Arbitrary types:
   - Passing in type with an enum on `_create`
   - Internally values are a void*
   - Can we cast it back and return a type value with one function?
+
+```
+typedef enum {
+    CHAR,
+    INT,
+    FLOAT,
+    DOUBLE
+} TYPE;
+
+void foo(TYPE t, void* x){
+    switch(t){
+        case CHAR:
+            (char*)x;
+            break;
+        case INT:
+            (int*)x;
+            break;
+         ...
+    }
+}
+```
+
 ### Questions:
 - How to implement ids?
 - How to implement arbitrary types?
