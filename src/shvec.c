@@ -3,9 +3,9 @@
 #include <stdlib.h>
 
 typedef struct {
-  int size;        // number of initialized values
-  int max_size;    // max number of values
-  int *data_ptr;   // array of values
+    int size;        // number of initialized values
+    int max_size;    // max number of values
+    int *data_ptr;   // array of values
 } Shvector;
 
 Shvector shvec_array[MAX_SHVECS];
@@ -19,7 +19,7 @@ int shvec_initialize(int shvec_id){
     return shvec_id;
 }
 /*
-* Creates a new Shvec 
+* Creates a new Shvec
 * Returns a new Shvec id
 */
 int shvec_create(){
@@ -32,8 +32,8 @@ int shvec_create(){
     return -1;
 }
 int main(){
-  int my_shvect = shvect_create();
-  printf("shvec_id %d\n", my_shvect);
+    int my_shvect = shvect_create();
+    printf("shvec_id %d\n", my_shvect);
 
     return 0;
 }
