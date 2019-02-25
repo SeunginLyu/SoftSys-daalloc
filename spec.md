@@ -1,8 +1,8 @@
 # Shvector Spec
 
 ## Api:
-`int shvec_create(TYPE t)`
-Creates a new shvect of type t and returns its `int shvect_id`
+`int shvec_create()`
+Creates a new shvect and returns its `int shvect_id`
 
 `shvec_set(int id, int index)`
 Set a value at `index` of shvector `id`
