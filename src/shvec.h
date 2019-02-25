@@ -1,4 +1,5 @@
-#define MAX_SHVECTS 100
+#define MAX_SHVECS 128
+#define INIT_SIZE 10
 #define GROWTH_FACTOR 2
 
 int shvec_create();
