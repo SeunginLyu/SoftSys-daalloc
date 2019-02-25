@@ -2,7 +2,7 @@
 
 ## Api:
 `int shvec_create()`
-Creates a new shvect and returns its `int shvect_id`
+Creates a new shvect and returns its `int shvec_id`
 
 `shvec_set(int id, int index)`
 Set a value at `index` of shvector `id`
@@ -19,6 +19,7 @@ Deletes the shvector `id` and frees the memory.
 ```
 GROWTH_FACTOR: the factor to expand an array when full
 MAX_SHVECTS: the size of shvector_array (will remove when dynamically allocated)
+INIT_SIZE: initial max_size of a new shvector
 ```
 
 ### Shvector struct
