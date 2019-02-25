@@ -4,8 +4,8 @@
 `int shvec_create()`
 Creates a new shvect and returns its `int shvec_id`
 
-`shvec_set(int id, int index)`
-Set a value at `index` of shvector `id`
+`shvec_set(int id, int index, int value)`
+Set `value` at `index` of shvector `id`
 
 `shvec_get(int id, int index)`
 Get the value at `index` from shvector `id`
