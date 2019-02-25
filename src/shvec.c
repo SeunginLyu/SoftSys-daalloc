@@ -120,9 +120,7 @@ int main(){
 
 
     printf("TEST FREEING:\n");
-    int my_shvec = shvec_create();
-    printf("id %d\n", my_shvec);
-    printf("data of my_shvec %p\n", shvec_array[my_shvec].data);
+    printf("data pointer of my_shvec %p\n", shvec_array[my_shvec].data);
     printf("shvec_available[my_shvec] : %d\n", shvec_available[my_shvec]);
     shvec_free(my_shvec);
     printf("shvec_available[my_shvec] after free : %d\n", shvec_available[my_shvec]);
