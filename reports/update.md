@@ -1,7 +1,7 @@
 # daalloc
 Matthew Beaudouin, Seungin Lyu, Adam Novotny
 
-## A dynamically allocated array for C.
+## A dynamically sized array for C.
 
 The goal of this project is to make a dynamically allocated array. For out MVP, we will use regular malloc to implement a dynamically allocated array. Then for our MAP(Most Awesome Product), we will go under the hood and use system calls to allocate memory, with an implementation of malloc called 'daalloc' specifically optimized for dynamic arrays.
 
@@ -27,9 +27,13 @@ The goal of this project is to make a dynamically allocated array. For out MVP, 
   - Set
   - Get
   - Free
+  Opional:
   - Info (size, type?, ...)
+  - Duplicate
+
 - What function do we need internally:
   - Reallocate space
+  - append
 
 
 ## Performance comparison:
