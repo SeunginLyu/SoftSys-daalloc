@@ -49,10 +49,10 @@ int main(){
     // simple test code
     int my_shvec = shvec_create();
     printf("shvec_id %d\n", my_shvec);
-    printf("data_ptr of shvec_array[0] %p\n", shvec_array[my_shvec].data_ptr);   
-    printf("shvec_available[0] : %d\n", shvec_available[my_shvec]);   
+    printf("data_ptr of my_shvec %p\n", shvec_array[my_shvec].data_ptr);   
+    printf("shvec_available[my_shvec] : %d\n", shvec_available[my_shvec]);   
     shvec_free(my_shvec);
-    printf("shvec_available[0] after free : %d\n", shvec_available[my_shvec]);    
+    printf("shvec_available[my_shvec] after free : %d\n", shvec_available[my_shvec]);    
     shvec_free(my_shvec); // should error
     return 0;
 }
