@@ -5,7 +5,7 @@
 typedef struct {
     int size;        // number of initialized values
     int max_size;    // max number of values
-    int *data_ptr;   // array of values
+    int *data;   // array of values
 } Shvector;
 
 Shvector shvec_array[MAX_SHVECS];
@@ -17,7 +17,7 @@ int shvec_available[MAX_SHVECS];
 int shvec_initialize(int id){
     //todo: malloc error handling
     int* data_ptr = malloc(sizeof(int)*INIT_SIZE);
-    shvec_array[id] = (Shvector) {.size=0, .max_size=INIT_SIZE, .data_ptr=data_ptr};
+    shvec_array[id] = (Shvector) {.size=0, .max_size=INIT_SIZE, .data=data_ptr};
     shvec_available[id] = 1;
     return id;
 }
@@ -41,7 +41,7 @@ int shvec_create(){
 int shvec_append(int id, int value){
     if(shvec_array[id].size < shvec_array[id].max_size){
         shvec_array[id].size++;
-        shvec_array[id].data_ptr[shvec_array[id].size] = value;
+        shvec_array[id].data[shvec_array[id].size] = value;
         return 0;
     } else {
         // realloc and update max_size
@@ -63,7 +63,7 @@ int shvec_set(int id, int index, int value){
             return 1;
         }
     }
-    shvec_array[id].data_ptr[index] = value;
+    shvec_array[id].data[index] = value;
     return 0;
 }
 
@@ -77,7 +77,7 @@ int shvec_get(int id, int index){
         fprintf(stderr, "ERROR: getting outside of array size\n");
         return 0;
     }
-    return shvec_array[id].data_ptr[index];
+    return shvec_array[id].data[index];
 }
 
 /*
@@ -86,7 +86,7 @@ int shvec_get(int id, int index){
 */
 int shvec_free(int id){
     if(shvec_available[id] == 1){
-        free(shvec_array[id].data_ptr);
+        free(shvec_array[id].data);
         shvec_available[id] = 0;
         return 0;
     } else {
@@ -121,7 +121,7 @@ int main(){
     printf("TEST FREEING:\n");
     int my_shvec = shvec_create();
     printf("id %d\n", my_shvec);
-    printf("data_ptr of my_shvec %p\n", shvec_array[my_shvec].data_ptr);
+    printf("data of my_shvec %p\n", shvec_array[my_shvec].data);
     printf("shvec_available[my_shvec] : %d\n", shvec_available[my_shvec]);
     shvec_free(my_shvec);
     printf("shvec_available[my_shvec] after free : %d\n", shvec_available[my_shvec]);
