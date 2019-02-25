@@ -11,6 +11,9 @@ typedef struct {
 Shvector shvec_array[MAX_SHVECS];
 int shvec_available[MAX_SHVECS];
 
+/*
+* Initializes a shvec in the shvec_array at shvec_id
+ */
 int shvec_initialize(int shvec_id){
     //todo: malloc error handling
     int* data_ptr = malloc(sizeof(int)*INIT_SIZE);
@@ -31,8 +34,10 @@ int shvec_create(){
     }
     return -1;
 }
-<<<<<<< HEAD
 
+/*
+* Appends a value to the shvec, reallocates the array if necessary
+ */
 int shvec_append(int id, int value){
     if(shvec_array[id].size < shvec_array[id].max_size){
         shvec_array[id].size++;
@@ -45,6 +50,11 @@ int shvec_append(int id, int value){
     }
 }
 
+/*
+* Sets a value at index in the shvec with id
+* Appends 0s if the index is larger than the current size
+ */
+
 int shvec_set(int id, int index, int value){
     for(int i=shvec_array[id].size; i<index; i++){
         if(shvec_append(id, 0)){
@@ -56,6 +66,11 @@ int shvec_set(int id, int index, int value){
     shvec_array[id].data_ptr[index] = value;
     return 0;
 }
+
+/*
+* Returns the value at index of shvec id
+* If out of bounds, returns 0
+*/
 
 int shvec_get(int id, int index){
     if(index > shvec_array[id].size){
