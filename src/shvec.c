@@ -12,24 +12,24 @@ Shvector shvec_array[MAX_SHVECS];
 int shvec_available[MAX_SHVECS];
 
 /*
-* Initializes a shvec in the shvec_array at shvec_id
+* Initializes a shvec in the shvec_array at id
  */
-int shvec_initialize(int shvec_id){
+int shvec_initialize(int id){
     //todo: malloc error handling
     int* data_ptr = malloc(sizeof(int)*INIT_SIZE);
-    shvec_array[shvec_id] = (Shvector) {.size=0, .max_size=INIT_SIZE, .data_ptr=data_ptr};
-    shvec_available[shvec_id] = 1;
-    return shvec_id;
+    shvec_array[id] = (Shvector) {.size=0, .max_size=INIT_SIZE, .data_ptr=data_ptr};
+    shvec_available[id] = 1;
+    return id;
 }
 /*
 * Creates a new Shvec
 * Returns a new Shvec id
 */
 int shvec_create(){
-    int shvec_id;
-    for(shvec_id = 0; shvec_id < MAX_SHVECS; shvec_id++){
-        if (shvec_available[shvec_id] == 0){
-            return shvec_initialize(shvec_id);
+    int id;
+    for(id = 0; id < MAX_SHVECS; id++){
+        if (shvec_available[id] == 0){
+            return shvec_initialize(id);
         }
     }
     return -1;
@@ -97,7 +97,7 @@ int shvec_free(int id){
 
 int main(){
     int my_shvec = shvec_create();
-    printf("shvec_id %d\n", my_shvec);
+    printf("id %d\n", my_shvec);
 
     printf("Setting [0] to 10\n");
     shvec_set(my_shvec, 0, 10);
@@ -120,7 +120,7 @@ int main(){
 
     printf("TEST FREEING:\n");
     int my_shvec = shvec_create();
-    printf("shvec_id %d\n", my_shvec);
+    printf("id %d\n", my_shvec);
     printf("data_ptr of my_shvec %p\n", shvec_array[my_shvec].data_ptr);
     printf("shvec_available[my_shvec] : %d\n", shvec_available[my_shvec]);
     shvec_free(my_shvec);
