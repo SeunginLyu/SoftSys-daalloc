@@ -34,6 +34,7 @@ int shvec_create(){
 int shvec_free(int id){
     if(shvec_available[id] == 1){
         free(shvec_array[id].data_ptr);
+        shvec_available[id] = 0;
         return 0;
     }
     return -1;
@@ -41,5 +42,9 @@ int shvec_free(int id){
 int main(){
     int my_shvec = shvec_create();
     printf("shvec_id %d\n", my_shvec);
+    printf("data_ptr of shvec_array[0] %p\n", shvec_array[0].data_ptr);   
+    printf("shvec_available[0] : %d\n", shvec_available[0]);   
+    shvec_free(0);
+    printf("shvec_available[0] after free : %d\n", shvec_available[0]);    
     return 0;
 }
