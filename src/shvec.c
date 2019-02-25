@@ -26,14 +26,20 @@ int shvec_create(){
     int shvec_id;
     for(shvec_id = 0; shvec_id < MAX_SHVECS; shvec_id++){
         if (shvec_available[shvec_id] == 0){
-            return initialize_shvec(shvec_id);
+            return shvec_initialize(shvec_id);
         }
     }
     return -1;
 }
+int shvec_free(int id){
+    if(shvec_available[id] == 1){
+        free(shvec_array[id].data_ptr);
+        return 0;
+    }
+    return -1;
+}
 int main(){
-    int my_shvect = shvect_create();
-    printf("shvec_id %d\n", my_shvect);
-
+    int my_shvec = shvec_create();
+    printf("shvec_id %d\n", my_shvec);
     return 0;
 }
