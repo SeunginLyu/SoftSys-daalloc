@@ -31,20 +31,28 @@ int shvec_create(){
     }
     return -1;
 }
+/*
+* Frees the shvec with given id from heap
+* Returns 0 on succes, -1 on error
+*/
 int shvec_free(int id){
     if(shvec_available[id] == 1){
         free(shvec_array[id].data_ptr);
         shvec_available[id] = 0;
         return 0;
+    } else {
+        fprintf(stderr, "KeyError: shvec with given id does not exist\n");
+        return -1;
     }
-    return -1;
 }
 int main(){
     int my_shvec = shvec_create();
+    // simple test code
     printf("shvec_id %d\n", my_shvec);
     printf("data_ptr of shvec_array[0] %p\n", shvec_array[0].data_ptr);   
     printf("shvec_available[0] : %d\n", shvec_available[0]);   
     shvec_free(0);
     printf("shvec_available[0] after free : %d\n", shvec_available[0]);    
+    shvec_free(1); // should error
     return 0;
 }
