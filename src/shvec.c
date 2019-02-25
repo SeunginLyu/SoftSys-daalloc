@@ -45,6 +45,7 @@ int shvec_append(int id, int value){
         return 0;
     } else {
         // realloc and update max_size
+        // todo (Matt)
         fprintf(stderr, "ERROR: could not resize array\n");
         return 1;
     }
