@@ -1,13 +1,13 @@
 # Shvector Spec
 
 ## Api:
-`int shvec_create(TYPE t)`
-Creates a new shvect of type t and returns its `int shvect_id`
+`int shvec_create()`
+Creates a new shvect and returns its `int shvect_id`
 
 `shvec_set(int id, int index)`
 Set a value at `index` of shvector `id`
 
-`shvec_get(int id,i int index)`
+`shvec_get(int id, int index)`
 Get the value at `index` from shvector `id`
 Index wraps around i.e. `-1` returns last value
 
