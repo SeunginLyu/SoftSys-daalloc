@@ -32,6 +32,9 @@ typedef struct {
 ```
 
 ### Functions
+`_initialze(int shvect_id)`
+allocates memory for a new array and initializes the values in shvect_array
+
 `_append(schvector shvect, int value)`
 appends `value` to shvect `id`, increments size. If `max_size > size`, it expands the array.
 
