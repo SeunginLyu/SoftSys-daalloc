@@ -11,7 +11,7 @@ typedef struct {
 Shvector shvec_array[MAX_SHVECS];
 int shvec_available[MAX_SHVECS];
 
-int initialize_shvec(int shvec_id){
+int shvec_initialize(int shvec_id){
     //todo: malloc error handling
     int* data_ptr = malloc(sizeof(int)*INIT_SIZE);
     shvec_array[shvec_id] = (Shvector) {.size=0, .max_size=INIT_SIZE, .data_ptr=data_ptr};
