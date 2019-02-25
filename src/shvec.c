@@ -33,7 +33,7 @@ int shvec_create(){
 }
 /*
 * Frees the shvec with given id from heap
-* Returns 0 on succes, -1 on error
+* Returns 0 on success, -1 on error
 */
 int shvec_free(int id){
     if(shvec_available[id] == 1){
@@ -46,13 +46,13 @@ int shvec_free(int id){
     }
 }
 int main(){
-    int my_shvec = shvec_create();
     // simple test code
+    int my_shvec = shvec_create();
     printf("shvec_id %d\n", my_shvec);
-    printf("data_ptr of shvec_array[0] %p\n", shvec_array[0].data_ptr);   
-    printf("shvec_available[0] : %d\n", shvec_available[0]);   
-    shvec_free(0);
-    printf("shvec_available[0] after free : %d\n", shvec_available[0]);    
-    shvec_free(1); // should error
+    printf("data_ptr of shvec_array[0] %p\n", shvec_array[my_shvec].data_ptr);   
+    printf("shvec_available[0] : %d\n", shvec_available[my_shvec]);   
+    shvec_free(my_shvec);
+    printf("shvec_available[0] after free : %d\n", shvec_available[my_shvec]);    
+    shvec_free(my_shvec); // should error
     return 0;
 }
