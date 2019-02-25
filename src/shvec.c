@@ -2,7 +2,7 @@
 #include <stdio.h>
 
 typedef struct {
-  int size;        // number of initialized values 
+  int size;        // number of initialized values
   int max_size;    // max number of values
   int *data_ptr;   // array of values
 } Shvector;
@@ -10,5 +10,8 @@ typedef struct {
 Shvector shvec_array[MAX_SHVECTS];
 
 int main(){
+  int my_shvect = shvect_create();
+  printf("shvec_id %d\n", my_shvect);
+
     return 0;
 }
