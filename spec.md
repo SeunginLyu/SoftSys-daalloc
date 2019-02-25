@@ -24,8 +24,8 @@ MAX_SHVECTS: the size of shvector_array (will remove when dynamically allocated)
 ### Shvector struct
 ```
 typedef struct {
-  int size;        // number of values so far
-  int max_size;    // max length
+  int size;        // number of initialized values
+  int max_size;    // max number of values
   int *data_ptr;   // array of values
 } Shvector;
 ```
