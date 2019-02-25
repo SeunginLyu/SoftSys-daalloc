@@ -30,8 +30,8 @@ void foo(TYPE t, void* x){
 }
 ```
 
-![image1](./Feb_24_1.png)
-![image2](./Feb_24_2.png)
+![image1](./assets/Feb_24_1.png)
+![image2](./assets/Feb_24_2.png)
 ### Next Meeting (3/1):
 - Plan to polish `update.md` (continually?)
 - Expand scope of project
