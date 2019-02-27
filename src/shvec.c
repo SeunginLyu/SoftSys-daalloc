@@ -70,9 +70,6 @@ int shvec_append(int id, int value){
 
         free(old_data_ptr);
         return 0;
-
-        // fprintf(stderr, "ERROR: could not resize array\n");
-        // return 1;
     }
 }
 
