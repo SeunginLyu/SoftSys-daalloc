@@ -3,16 +3,17 @@
 #include <stdlib.h>
 
 typedef struct {
-    int size;        // number of initialized values
-    int max_size;    // max number of values
-    int *data;   // array of values
+    int size;       // number of initialized values
+    int max_size;   // max number of values
+    int *data;      // array of values
+    //todo: make max_size and size unsigned types.
 } Shvector;
 
 Shvector shvec_array[MAX_SHVECS];
 int shvec_available[MAX_SHVECS];
 
 /*
-* Initializes a shvec in the shvec_array at id
+ * Initializes a shvec in the shvec_array at id
  */
 int shvec_initialize(int id){
     //todo: malloc error handling
@@ -22,9 +23,9 @@ int shvec_initialize(int id){
     return id;
 }
 /*
-* Creates a new Shvec
-* Returns a new Shvec id
-*/
+ * Creates a new Shvec
+ * Returns a new Shvec id
+ */
 int shvec_create(){
     int id;
     for(id = 0; id < MAX_SHVECS; id++){
@@ -36,7 +37,7 @@ int shvec_create(){
 }
 
 /*
-* Appends a value to the shvec, reallocates the array if necessary
+ * Appends a value to the shvec, reallocates the array if necessary
  */
 int shvec_append(int id, int value){
     if(shvec_array[id].size < shvec_array[id].max_size){
@@ -44,10 +45,34 @@ int shvec_append(int id, int value){
         shvec_array[id].data[shvec_array[id].size] = value;
         return 0;
     } else {
+        int* old_data_ptr = shvec_array[id].data;
+        int old_size = shvec_array[id].size;
+
         // realloc and update max_size
-        // todo (Matt)
-        fprintf(stderr, "ERROR: could not resize array\n");
-        return 1;
+        while (shvec_array[id].size < shvec_array[id].max_size) {
+            shvec_array[id].max_size = shvec_array[id].max_size << 1;
+            
+            if (shvec_array[id].max_size >= SHVEC_SIZE_CAP) {
+                fprintf(stderr, "ERROR: reached maximum array size.");
+                return 1;
+            }
+        }
+        
+        //todo: malloc error handling
+        shvec_array[id].data = malloc(sizeof(int)*shvec_array[id].max_size);
+        shvec_array[id].size++;
+
+        // populate new vector
+        for (int i = 0; i < old_size; i++) {
+            shvec_array[id].data[i] = old_data_ptr[i];
+        }
+        shvec_array[id].data[old_size] = value;
+
+        free(old_data_ptr);
+        return 0;
+
+        // fprintf(stderr, "ERROR: could not resize array\n");
+        // return 1;
     }
 }
 
