@@ -1,6 +1,7 @@
 #include "shvec.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <limits.h>
 
 typedef struct {
     int size;       // number of initialized values
@@ -50,12 +51,13 @@ int shvec_append(int id, int value){
 
         // realloc and update max_size
         while (shvec_array[id].size < shvec_array[id].max_size) {
-            shvec_array[id].max_size = shvec_array[id].max_size << 1;
-            
-            if (shvec_array[id].max_size >= SHVEC_SIZE_CAP) {
+            // Catch int overflow before changing max_size
+            if (shvec_array[id].max_size >= (INT_MAX / GROWTH_FACTOR)) {
                 fprintf(stderr, "ERROR: reached maximum array size.");
                 return 1;
             }
+
+            shvec_array[id].max_size = shvec_array[id].max_size * GROWTH_FACTOR;
         }
         
         //todo: malloc error handling
