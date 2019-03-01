@@ -49,28 +49,19 @@ int shvec_append(int id, int value){
         int* old_data_ptr = shvec_array[id].data;
         int old_size = shvec_array[id].size;
 
-        // realloc and update max_size
-        while (shvec_array[id].size < shvec_array[id].max_size) {
-            // Catch int overflow before changing max_size
-            if (shvec_array[id].max_size >= (INT_MAX / GROWTH_FACTOR)) {
-                fprintf(stderr, "ERROR: reached maximum array size.");
-                return 1;
-            }
-
-            shvec_array[id].max_size = shvec_array[id].max_size * GROWTH_FACTOR;
+        // Catch int overflow before changing max_size
+        if (shvec_array[id].max_size >= (INT_MAX / GROWTH_FACTOR)) {
+            fprintf(stderr, "ERROR: reached maximum array size.");
+            return 1;
         }
+
+        shvec_array[id].max_size = shvec_array[id].max_size * GROWTH_FACTOR;
         
         //todo: malloc error handling
-        shvec_array[id].data = malloc(sizeof(int)*shvec_array[id].max_size);
+        shvec_array[id].data = realloc(shvec_array[id].data, sizeof(int)*shvec_array[id].max_size);
+        shvec_array[id].data[shvec_array[id].size] = value;
         shvec_array[id].size++;
 
-        // populate new vector
-        for (int i = 0; i < old_size; i++) {
-            shvec_array[id].data[i] = old_data_ptr[i];
-        }
-        shvec_array[id].data[old_size] = value;
-
-        free(old_data_ptr);
         return 0;
     }
 }
