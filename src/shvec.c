@@ -3,6 +3,8 @@
 #include <stdlib.h>
 #include <limits.h>
 
+int shvec_expand(int id);
+
 typedef struct {
     int size;       // number of initialized values
     int max_size;   // max number of values
@@ -42,11 +44,10 @@ int shvec_create(){
  */
 int shvec_expand(int id) {
     // Catch int overflow before changing max_size
-    while (shvec_array[id].size < shvec_array[id].max_size) {
-        if (shvec_array[id].max_size >= (INT_MAX / GROWTH_FACTOR)) {
-            fprintf(stderr, "ERROR: reached maximum array size.");
-            return 1;
-        }
+    if (shvec_array[id].max_size >= (INT_MAX / GROWTH_FACTOR) \
+        || shvec_array[id].max_size < 0) {
+        fprintf(stderr, "ERROR: Reached maximum array size. max_size int overflow");
+        return 1;
     }
 
     shvec_array[id].max_size = shvec_array[id].max_size * GROWTH_FACTOR;
