@@ -10,3 +10,6 @@ test: shvec.c shvec.h
 
 clean:
 	rm shvec.out
+
+test_shvalloc.out: minunit.h test_shvalloc.c
+	gcc -g -Wall test_shvalloc.c -o test_shvalloc.out
