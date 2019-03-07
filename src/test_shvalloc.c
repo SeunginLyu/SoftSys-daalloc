@@ -46,11 +46,25 @@ static char *test3() {
     mu_assert(message, a < (int*)&sp);
     return NULL;
 }
+static char *test4(){
+    int* a = shvalloc(SIZE_MAX);
+    char *message = "shvalloc(SIZE_MAX) should return NULL";
+    mu_assert(message, a == NULL);
+    return NULL;
+}
 
+static char *test5(){
+    int* a = shvalloc(0);
+    char *message = "shvalloc(0) should return a pointer not NULL and that is subject to free";
+    mu_assert(message, a != NULL);
+    return NULL;
+}
 static char * all_tests() {
     mu_run_test(test1);
     mu_run_test(test2);
     mu_run_test(test3);
+    mu_run_test(test4);
+    mu_run_test(test5);
     return NULL;
 }
 
