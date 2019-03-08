@@ -69,6 +69,8 @@ static char * all_tests() {
 }
 
 int main(int argc, char **argv) {
+    printf("Running shvalloc tests:\n");
+
     char *result = all_tests();
     if (result != NULL) {
         printf("%s\n", result);
