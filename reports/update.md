@@ -1,20 +1,48 @@
 # daalloc
 Matthew Beaudouin, Seungin Lyu, Adam Novotny
 
+## Todo:
+- Describe our project goal with technical details
+- Fill status page
+- Create current tasks
+- Write out todo:
+  - Killer app
+
+
 ## A dynamically sized array for C.
 
 The goal of this project is to make a dynamically allocated array. For out MVP, we will use regular malloc to implement a dynamically allocated array. Then for our MAP(Most Awesome Product), we will go under the hood and use system calls to allocate memory, with an implementation of malloc called 'daalloc' specifically optimized for dynamic arrays.
 
 #### Our learning goals:
 - Learn how malloc assigns system memory.
-- Learn how to implement dynamic arrays from a low-level persepctive
+- Learn how to implement dynamic arrays from a low-level perspective
 - Learn how to design an effective library api
+- Learn how to do testing and CI in a C codebase
 
-#### Process:
-1. ~~We will all read the stdlib malloc implementation to have a shared understanding of the material.~~
-2. ~~Each of us will find and understand an implementation of a dynamically allocated array.~~
-3. We will compare and choose an architecture to start implementing daalloc.
-4. Split up tasks and assign them
+
+#### Status:
+
+
+#### Current tasks:
+```
+shchgrp -r "r1\; r2\;" < text.txt
+```
+
+returns lists of the values matching each regex:
+```
+r1:
+ 1
+ 2
+ 3
+r2:
+ 4
+ 5
+ 6
+r3;
+ 7
+ 8
+ 9
+```
 
 ## API Design:
 - What do we call our dynamically allocated array?
@@ -27,7 +55,7 @@ The goal of this project is to make a dynamically allocated array. For out MVP, 
   - Set
   - Get
   - Free
-  Opional:
+  Optional:
   - Info (size, type?, ...)
   - Duplicate
 
