@@ -1,5 +1,6 @@
+// cap max_size to the maximum size of a power of 2 int
 #define MAX_SHVECS 128
-#define INIT_SIZE 10
+#define INIT_SIZE 8
 #define GROWTH_FACTOR 2
 
 int shvec_create();

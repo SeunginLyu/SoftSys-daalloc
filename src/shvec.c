@@ -1,18 +1,22 @@
 #include "shvec.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <limits.h>
+
+int shvec_expand(int id);
 
 typedef struct {
-    int size;        // number of initialized values
-    int max_size;    // max number of values
-    int *data;   // array of values
+    int size;       // number of initialized values
+    int max_size;   // max number of values
+    int *data;      // array of values
+    //todo: make max_size and size unsigned types.
 } Shvector;
 
 Shvector shvec_array[MAX_SHVECS];
 int shvec_available[MAX_SHVECS];
 
 /*
-* Initializes a shvec in the shvec_array at id
+ * Initializes a shvec in the shvec_array at id
  */
 int shvec_initialize(int id){
     //todo: malloc error handling
@@ -22,9 +26,9 @@ int shvec_initialize(int id){
     return id;
 }
 /*
-* Creates a new Shvec
-* Returns a new Shvec id
-*/
+ * Creates a new Shvec
+ * Returns a new Shvec id
+ */
 int shvec_create(){
     int id;
     for(id = 0; id < MAX_SHVECS; id++){
@@ -36,7 +40,25 @@ int shvec_create(){
 }
 
 /*
-* Appends a value to the shvec, reallocates the array if necessary
+ * Expand memory allocation of shvec's data.
+ */
+int shvec_expand(int id) {
+    // Catch int overflow before changing max_size
+    if (shvec_array[id].max_size >= (INT_MAX / GROWTH_FACTOR) \
+        || shvec_array[id].max_size < 0) {
+        fprintf(stderr, "ERROR: Reached maximum array size. max_size int overflow");
+        return 1;
+    }
+
+    shvec_array[id].max_size = shvec_array[id].max_size * GROWTH_FACTOR;
+    
+    //todo: malloc error handling
+    shvec_array[id].data = realloc(shvec_array[id].data, sizeof(int)*shvec_array[id].max_size);
+    return 0;
+}
+
+/*
+ * Appends a value to the shvec, reallocates the array if necessary
  */
 int shvec_append(int id, int value){
     if(shvec_array[id].size < shvec_array[id].max_size){
@@ -44,10 +66,11 @@ int shvec_append(int id, int value){
         shvec_array[id].data[shvec_array[id].size] = value;
         return 0;
     } else {
-        // realloc and update max_size
-        // todo (Matt)
-        fprintf(stderr, "ERROR: could not resize array\n");
-        return 1;
+        shvec_expand(id);
+        shvec_array[id].data[shvec_array[id].size] = value;
+        shvec_array[id].size++;
+
+        return 0;
     }
 }
 
