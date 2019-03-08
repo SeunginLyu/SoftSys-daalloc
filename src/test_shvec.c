@@ -7,6 +7,7 @@ To run the test, type in your command line
 #include <string.h>
 #include <assert.h>
 #include "minunit.h"
+#include "shvec.h"
 
 int tests_run = 0;
 
