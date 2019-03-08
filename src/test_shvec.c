@@ -1,13 +1,12 @@
 /*
 To run the test, type in your command line 
-"make test_shvalloc && ./test_shvalloc.out" 
+"make test_shvec && ./test_shvec.out"
 */
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <assert.h>
 #include "minunit.h"
-#include <stdint.h>
 
 int tests_run = 0;
 
