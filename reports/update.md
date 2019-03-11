@@ -1,59 +1,57 @@
 # daalloc
 Matthew Beaudouin, Seungin Lyu, Adam Novotny
 
-## A dynamically sized array for C.
-
-The goal of this project is to make a dynamically allocated array. For out MVP, we will use regular malloc to implement a dynamically allocated array. Then for our MAP(Most Awesome Product), we will go under the hood and use system calls to allocate memory, with an implementation of malloc called 'daalloc' specifically optimized for dynamic arrays.
-
-#### Our learning goals:
-- Learn how malloc assigns system memory.
-- Learn how to implement dynamic arrays from a low-level persepctive
-- Learn how to design an effective library api
-
-#### Process:
-1. ~~We will all read the stdlib malloc implementation to have a shared understanding of the material.~~
-2. ~~Each of us will find and understand an implementation of a dynamically allocated array.~~
-3. We will compare and choose an architecture to start implementing daalloc.
-4. Split up tasks and assign them
-
-## API Design:
-- What do we call our dynamically allocated array?
-- What type will the array hold (int or void*?)
-  - void * on the inside, with type in the struct?
-- What values does our dalloc need to have in the struct?
-- Referencing a dalloc with the struct variable itself or just with an arbitrary int?
-- What functions do we need exposed:
-  - Create
-  - Set
-  - Get
-  - Free
-  Opional:
-  - Info (size, type?, ...)
-  - Duplicate
-
-- What function do we need internally:
-  - Reallocate space
-  - append
-
-
-## Performance comparison:
-What metrics do we test to compare the performance of dalloc vs array?
-- sequential writes
-- sequential reads
-- random writes
-- random reads
-
-# Assignment:
-```
-Your project update should answer the following questions (note that some are the same as in the proposal):
-
+### Prompt
 1) What is the goal of your project; for example, what do you plan to make, and what should it do?  Identify a lower bound you are confident you can achieve and a stretch goal that is more ambitious.
 
 2) What are your learning goals; that is, what do you intend to achieve by working on this project?
 
 3) What have you done to get started?  Have you found the resources you need, do you have a plan to find them, or do you need help?  If you found any resources you think I should add to the list on the class web page, please email them to me.
 
-4) What are you working on now?  Describe at least three concrete tasks that you are working on, and identify which members of the team are working on them.  For each one, what is the "definition of done"; that is, what will you produce to demonstrate that the task is done?
+## A dynamically sized array for C.
 
-Audience: Think of your update as a rough draft of your final report.  Target an external audience that wants to know what you did and why.  More specifically, think about students in future versions of SoftSys who might want to work on a related project.  Also think about people who might look at your online portfolio to see what you know, what you can do, and how well you can communicate.
+For this project, we implemented a dynamically sized vector `shvector`, running on a custom implementation of malloc `shmalloc`. To show off the power of these tools we created `shgrep`, an application that runs multiple regexes on a file and outputs the matches in separate lists.
+
+Currently `shmalloc` is a naive re-implementation of `malloc`. We hope to optimize `shmalloc` for `shvectors`, which only grow in size in a geometric progression.
+
+We are currently working on `shgrep`, and have a clear path to creating it.
+
+
+#### Our learning goals:
+- [x]Learn how malloc assigns system memory.
+- [x]Learn how to implement dynamic arrays from a low-level perspective
+- [x]Learn how to design an effective library API
+- [x]Learn how to do testing and CI for a C codebase
+
+At this point, we have made a solid progress towards meeting these initial goals as demonstrated in our project status section. 
+
+## Project Status (as of March 12):
+
+##### What we have done
+- We have designed an [API](https://github.com/SeunginLyu/SoftSys-daalloc/blob/master/spec.md) for shvector.
+- We have implemented our own dynamically size vector [`shvector`](https://github.com/SeunginLyu/SoftSys-daalloc/blob/master/src/shvec.c).
+- We have implemented our own `malloc` called [`shvalloc`](https://github.com/SeunginLyu/SoftSys-daalloc/blob/master/src/shvalloc.c) after following a [tutorial](https://danluu.com/malloc-tutorial/). We used the TDD (Test Driven Development) framework and wrote down [tests](https://github.com/SeunginLyu/SoftSys-daalloc/blob/master/src/test_shvalloc.c) before the implementation. 
+- We have setup up a CI (Continuous Integration) environment for the team which uses Github and TravisCI. It automatically runs tests whenever someone pushes the code to the online repository. Also, we have been adhering to the rule that a pull request must be reviewed and approved by at least one of the team members before it gets merged to master.
+- We have created a [`Makefile`](https://github.com/SeunginLyu/SoftSys-daalloc/blob/master/src/Makefile) that links the relevant components together. 
+##### What we had planned but haven't done yet
+- We will write unit tests for `shvector`
+- We will update shvalloc so that it passes all the tests. It currently does not pass the test when the size is `MAX_SIZE`. It should return NULL but now it returns an address.
+- We will update `shvector` so that it internally uses `shvalloc` instead of `malloc` (after `shmalloc` passes all its tests)
+- We will write the MVP of `shgrep`
+    - Create the structure of the code (use [grep src code](https://savannah.gnu.org/git/?group=grep) for inspiration?)
+    - Run multiple regexes against each line and append matches to its `shvector`
+- Stretch:
+    - Implement chunking to `shvector` to optimize it for `shvalloc`
+    - Run performance comparisons of `shvector` vs `array` and `shchgrep` vs multiple `grep`s
+
+## Current tasks:
+For the sake of utilizing shvector in a creative manner, we are building a command-line tool called `shchgrp` (shitty chained grep) which returns lists of the values matching each regex. 
+
+#### Example:
+```
+printf "abc\n123" | shchgrp "[0-9]" "[a-z]"
+[0-9]:
+    123
+[a-z]:
+    abc
 ```
