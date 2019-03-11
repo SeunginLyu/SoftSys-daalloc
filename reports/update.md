@@ -1,13 +1,6 @@
 # daalloc
 Matthew Beaudouin, Seungin Lyu, Adam Novotny
 
-### Prompt
-1) What is the goal of your project; for example, what do you plan to make, and what should it do?  Identify a lower bound you are confident you can achieve and a stretch goal that is more ambitious.
-
-2) What are your learning goals; that is, what do you intend to achieve by working on this project?
-
-3) What have you done to get started?  Have you found the resources you need, do you have a plan to find them, or do you need help?  If you found any resources you think I should add to the list on the class web page, please email them to me.
-
 ## A dynamically sized array for C.
 
 For this project, we implemented a dynamically sized vector `shvector`, running on a custom implementation of malloc `shmalloc`. To show off the power of these tools we created `shgrep`, an application that runs multiple regexes on a file and outputs the matches in separate lists.
