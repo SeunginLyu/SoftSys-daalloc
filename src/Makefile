@@ -8,6 +8,9 @@ shvec.out: shvec.c shvec.h
 shvalloc.out: shvalloc.h shvalloc.c
 	gcc $(FLAGS) shvalloc.c -o shvalloc.out
 
+shchgrp.out: shvec.c shvec.h
+	gcc $(FLAGS) shchgrp.c -o shchgrp.out
+
 test: 
 	make -s test_real
 
