@@ -49,7 +49,7 @@ For the sake of utilizing shvector in a creative manner, we are building a comma
 
 #### Example:
 ```
-printf "abc\n123" | shchgrp "[0-9]\; [a-z]\;"
+printf "abc\n123" | shchgrp "[0-9]" "[a-z]"
 [0-9]:
     123
 [a-z]:
