@@ -31,16 +31,18 @@ int main(int argc, char *argv[]){
             return 1;
         }
         
-        regexes = (char **) malloc(sizeof(char*) * num_regexes);
+        regexes = (char **) malloc(sizeof(Regex*) * num_regexes);
         
         for(int index = 0; index < num_regexes; index++){
-            regexes[index] = strdup(argv[index + optind]);
+            regexes[index] = make_regex(argv[index + optind], REG_EXTENDED | REG_NOSUB);
         }
     }
 
     printf("Regexes:\n");
     for(int i = 0; i < num_regexes; i++){
-        printf("%s\n", regexes[i]);
+        if(regexec(&regex, "hello world", 0, NULL, 0)) {
+            printf("regex numebr %d matches hello world\n", i);
+        }
     }
     // Run these against the stdin
     return 0;

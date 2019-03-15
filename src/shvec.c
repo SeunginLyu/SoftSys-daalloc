@@ -1,4 +1,5 @@
 #include "shvec.h"
+#include "shvalloc.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <limits.h>
@@ -19,8 +20,8 @@ int shvec_available[MAX_SHVECS];
  * Initializes a shvec in the shvec_array at id
  */
 int shvec_initialize(int id){
-    //todo: malloc error handling
-    int* data_ptr = malloc(sizeof(int)*INIT_SIZE);
+    //todo: shvalloc error handling
+    int* data_ptr = shvalloc(sizeof(int)*INIT_SIZE);
     shvec_array[id] = (Shvector) {.size=0, .max_size=INIT_SIZE, .data=data_ptr};
     shvec_available[id] = 1;
     return id;
@@ -43,6 +44,9 @@ int shvec_create(){
  * Expand memory allocation of shvec's data.
  */
 int shvec_expand(int id) {
+    int* old_data_ptr = shvec_array[id].data;
+    int old_size = shvec_array[id].size;
+
     // Catch int overflow before changing max_size
     if (shvec_array[id].max_size >= (INT_MAX / GROWTH_FACTOR) \
         || shvec_array[id].max_size < 0) {
@@ -52,8 +56,18 @@ int shvec_expand(int id) {
 
     shvec_array[id].max_size = shvec_array[id].max_size * GROWTH_FACTOR;
     
-    //todo: malloc error handling
-    shvec_array[id].data = realloc(shvec_array[id].data, sizeof(int)*shvec_array[id].max_size);
+    //todo: shvalloc error handling
+    // shvec_array[id].data = realloc(shvec_array[id].data, sizeof(int)*shvec_array[id].max_size);
+    shvec_array[id].data = shvalloc(sizeof(int)*shvec_array[id].max_size);
+    // shvec_array[id].size++;
+
+    // populate new vector
+    for (int i = 0; i < old_size; i++) {
+        shvec_array[id].data[i] = old_data_ptr[i];
+    }
+    // shvec_array[id].data[old_size] = value;
+
+    shvfree(old_data_ptr);
     return 0;
 }
 
@@ -108,9 +122,9 @@ int shvec_get(int id, int index){
 * Frees the shvec with given id from heap
 * Returns 0 on success, -1 on error
 */
-int shvec_free(int id){
+int shvec_free(int id) {
     if(shvec_available[id] == 1){
-        free(shvec_array[id].data);
+        shvfree(shvec_array[id].data);
         shvec_available[id] = 0;
         return 0;
     } else {

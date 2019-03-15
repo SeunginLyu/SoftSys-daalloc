@@ -2,8 +2,8 @@ FLAGS = -Wall
 
 all: shvec.out shvalloc.out
 
-shvec.out: shvec.c shvec.h
-	gcc $(FLAGS) shvec.c -o shvec.out
+shvec.out: shvec.c shvalloc.h shvec.h shvalloc.c
+	gcc $(FLAGS) shvalloc.c shvec.c -o shvec.out
 
 shvalloc.out: shvalloc.h shvalloc.c
 	gcc $(FLAGS) shvalloc.c -o shvalloc.out
