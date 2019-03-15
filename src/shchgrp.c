@@ -62,23 +62,21 @@ int main(int argc, char *argv[]){
         for(int i = 0; i < num_regexes; i++){
             int match = regexec(regexes[i], in_buf, 0, NULL, 0);
             if(match == 0) {
-                printf("regex number %d matches %s\n", i, in_buf);
-
                 for(int x = 0; in_buf[x] != '\0'; x++){
                     shvec_set(matches[i], matches_i[i], (int)in_buf[x]);
                     matches_i[i]++;
                 }
-                shvec_set(matches[i], matches_i[i]+1, '\0');
+                shvec_set(matches[i], matches_i[i], '\0');
+
             }
         }   
     }
     
     for(int i = 0; i < num_regexes; i++){
-        printf("Matches to regex %d\n", i);
-        for(int x = 0; shvec_get(matches[i], x) != '\0'; x++){
-            printf("%c", (char)shvec_get(matches[i], x));
+        printf("Matches to regex %d:\n", i);
+        for(int x = 0; x < shvec_get_size(i); x++){
+            printf("%c", shvec_get(matches[i], x));
         }
-        printf("\n");
     }
 
     return 0;
