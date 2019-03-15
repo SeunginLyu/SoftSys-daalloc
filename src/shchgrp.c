@@ -34,6 +34,7 @@ int main(int argc, char *argv[]){
     int num_regexes = 0;
     Regex ** regexes;
     int * matches;
+    int * matches_i;
 
     if(arg_parse(argc, argv)){
         return 1;
@@ -47,18 +48,12 @@ int main(int argc, char *argv[]){
         
         regexes = (Regex **) malloc(sizeof(Regex*) * num_regexes);
         matches = malloc(sizeof(int) * num_regexes);
+        matches_i = malloc(sizeof(int) * num_regexes);
 
         for(int index = 0; index < num_regexes; index++){
             regexes[index] = make_regex(argv[index + optind], REG_EXTENDED | REG_NOSUB);
             matches[index] = shvec_create();
-        }
-    }
-
-    printf("Regexes:\n");
-    for(int i = 0; i < num_regexes; i++){
-        int match = regexec(regexes[i], "hello world", 0, NULL, 0);
-        if(match == 0) {
-            printf("regex number %d matches hello world\n", i);
+            matches_i[index] = 0;
         }
     }
 
@@ -68,10 +63,23 @@ int main(int argc, char *argv[]){
             int match = regexec(regexes[i], in_buf, 0, NULL, 0);
             if(match == 0) {
                 printf("regex number %d matches %s\n", i, in_buf);
+
+                for(int x = 0; in_buf[x] != '\0'; x++){
+                    shvec_set(matches[i], matches_i[i], (int)in_buf[x]);
+                    matches_i[i]++;
+                }
+                shvec_set(matches[i], matches_i[i]+1, '\0');
             }
         }   
     }
     
-    // Run these against the stdin
+    for(int i = 0; i < num_regexes; i++){
+        printf("Matches to regex %d\n", i);
+        for(int x = 0; shvec_get(matches[i], x) != '\0'; x++){
+            printf("%c", (char)shvec_get(matches[i], x));
+        }
+        printf("\n");
+    }
+
     return 0;
 }
