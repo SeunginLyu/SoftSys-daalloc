@@ -45,8 +45,8 @@ int shvec_create(){
  * Expand memory allocation of shvec's data.
  */
 int shvec_expand(int id) {
-    int* old_data_ptr = shvec_array[id].data;
-    int old_size = shvec_array[id].size;
+    // int* old_data_ptr = shvec_array[id].data;
+    // int old_size = shvec_array[id].size;
 
     // Catch int overflow before changing max_size
     if (shvec_array[id].max_size >= (INT_MAX / GROWTH_FACTOR) \
