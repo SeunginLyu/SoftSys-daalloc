@@ -65,13 +65,13 @@ static char *test_shvec() {
     int my_shvec2 = shvec_create();
     message = "    shvec should not update after expand";
     for(int i=0;i<200;i++){
-        printf("setting %d\n",i);        
+        // printf("setting %d\n",i);        
         shvec_set(my_shvec2, i, i);
     }
     int get_val;
     for(int i=0;i<200;i++){
         get_val = shvec_get(my_shvec2, i);
-        printf("getting %d (%d)\n",i, get_val);
+        // printf("getting %d (%d)\n",i, get_val);
         mu_assert(message, get_val == i);
     }
     puts("    passed\n");
