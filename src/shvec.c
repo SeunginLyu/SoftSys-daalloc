@@ -101,6 +101,7 @@ int shvec_set(int id, int index, int value){
             return 1;
         }
     }
+    // printf("SHVEC: setting shvec[%d][%d] to %d\n", id, index, value);
     shvec_array[id].data[index] = value;
     return 0;
 }
@@ -111,6 +112,8 @@ int shvec_set(int id, int index, int value){
 */
 
 int shvec_get(int id, int index){
+    // printf("SHVEC: getting [%d][%d]: %d (\\n: %d \\0:%d)\n", id, index, shvec_array[id].data[index], shvec_array[id].data[index] == '\n', shvec_array[id].data[index] == '\0');
+
     if(index > shvec_array[id].size){
         fprintf(stderr, "ERROR: getting outside of array size\n");
         return 0;
@@ -152,7 +155,7 @@ int shvec_get_size(int id) {
         return 0;
     }
 
-    if (shvec_is_available(id)) {
+    if (shvec_is_available(id) == 0) {
         fprintf(stderr, "Err: Shvec id not in use");
     }
 

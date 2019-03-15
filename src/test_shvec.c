@@ -8,6 +8,7 @@ To run the test, type in your command line
 #include <assert.h>
 #include "minunit.h"
 #include "shvec.h"
+#include "shvec.c"
 
 int tests_run = 0;
 
@@ -29,7 +30,7 @@ static char *test_shvec() {
 
     printf("Setting [5] to 5\n");
     shvec_set(my_shvec, 5, 5);
-    printf("size of shvector %d\n", shvec_array[my_shvec].size);
+    printf("size of shvector %d\n", shvec_get_size(my_shvec));
     printf("value at [4]: %d\n", shvec_get(my_shvec, 4));
     printf("value at [5]: %d\n", shvec_get(my_shvec, 5));
 
@@ -37,7 +38,7 @@ static char *test_shvec() {
     shvec_set(my_shvec, 5, 5);
     int a = shvec_get(my_shvec, 4);
     int b = shvec_get(my_shvec, 5);
-    int size = shvec_array[my_shvec.size]
+    int size = shvec_get_size(my_shvec);
     message = "    shvec_set(my_shvec, 5, 5), shvec_get(my_shvec, 4) should return 0";
     mu_assert(message, a == 0);
     message = "    shvec_set(my_shvec, 5, 5), shvec_get(my_shvec, 5) should return 5";
@@ -48,7 +49,7 @@ static char *test_shvec() {
 
     puts("Testing Resizing");
     shvec_set(my_shvec, 11, 5);
-    int s = shvec_array[my_shvec].size;
+    int s = shvec_get_size(my_shvec);
     int k = shvec_get(my_shvec, 11);
     message = "    shvec_set(my_shvec, 11, 5) shvec_get(my_shvec,11) should return 5";
     mu_assert(message, k == 5);

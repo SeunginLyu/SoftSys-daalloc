@@ -33,4 +33,4 @@ test_shvalloc.out: shvalloc.h minunit.h shvalloc.c test_shvalloc.c
 	gcc -g $(FLAGS) shvalloc.c test_shvalloc.c -o test_shvalloc.out
 
 test_shvec.out: minunit.h shvec.c shvec.h test_shvec.c
-	gcc -g $(FLAGS) test_shvec.c -o test_shvec.out
+	gcc -g $(FLAGS) shvalloc.c test_shvec.c -o test_shvec.out
