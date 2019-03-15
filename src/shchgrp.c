@@ -74,13 +74,13 @@ int main(int argc, char *argv[]){
                     matches_i[i]++;
                 }
                 shvec_set(matches[i], matches_i[i], '\0');          // End the shvector with a \0
-
             }
         }   
     }
     
     // Print matches
     for(int i = 0; i < num_regexes; i++){
+        if(i!= 0) printf("\n");
         printf("Matches to regex (%s):\n", argv[i + optind]);
         for(int x = 0; x < shvec_get_size(i); x++){
             printf("%c", shvec_get(matches[i], x));
