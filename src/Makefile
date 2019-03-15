@@ -1,6 +1,6 @@
 FLAGS = -Wall
 
-all: shvec.out shvalloc.out
+all: shvec.out shvalloc.out regexlib.out
 
 shvec.out: shvec.c shvalloc.h shvec.h shvalloc.c
 	gcc $(FLAGS) shvalloc.c shvec.c -o shvec.out
@@ -8,8 +8,11 @@ shvec.out: shvec.c shvalloc.h shvec.h shvalloc.c
 shvalloc.out: shvalloc.h shvalloc.c
 	gcc $(FLAGS) shvalloc.c -o shvalloc.out
 
-shchgrp.out: shvec.c shvec.h
-	gcc $(FLAGS) shchgrp.c -o shchgrp.out
+shchgrp.out: shvec.c shvec.h regexlib.h regexlib.c shchgrp.c
+	gcc $(FLAGS) regexlib.c shchgrp.c shvec.c shvalloc.c -o shchgrp.out
+
+regexlib.out: regexlib.c regexlib.h
+	gxx $(FLAGS) regexlib.c -o regexlib.o
 
 test: 
 	make -s test_real
