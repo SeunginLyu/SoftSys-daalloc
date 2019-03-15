@@ -58,8 +58,9 @@ int shvec_expand(int id) {
     shvec_array[id].max_size = shvec_array[id].max_size * GROWTH_FACTOR;
 
     //todo: shvalloc error handling
+    printf("New max_size %d\n", shvec_array[id].max_size);
     shvec_array[id].data = realloc(shvec_array[id].data, sizeof(int)*shvec_array[id].max_size);
-
+    printf("new data: %p\n", shvec_array[id].data);
 
 
 
@@ -73,23 +74,22 @@ int shvec_expand(int id) {
     // shvec_array[id].data[old_size] = value;
 
     // shvfree(old_data_ptr);
-    return 0;
+    return shvec_array[id].data;
 }
 
 /*
  * Appends a value to the shvec, reallocates the array if necessary
  */
 int shvec_append(int id, int value){
-    if(shvec_array[id].size < shvec_array[id].max_size){
-        shvec_array[id].size++;
-        shvec_array[id].data[shvec_array[id].size] = value;
-        return 0;
-    } else {
-        shvec_expand(id);
-        shvec_array[id].size++;
-        shvec_array[id].data[shvec_array[id].size] = value;
-        return 0;
+    shvec_array[id].size += 1;
+
+    while(shvec_array[id].size > shvec_array[id].max_size-1){
+        int* new_data_arr = shvec_expand(id);
     }
+
+    printf("(append) data ptr = %p\n", shvec_array[id].data);
+    shvec_array[id].data[shvec_array[id].size] = value;
+    return 0;
 }
 
 /*
