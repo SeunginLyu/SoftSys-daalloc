@@ -21,7 +21,8 @@ int shvec_available[MAX_SHVECS];
  */
 int shvec_initialize(int id){
     //todo: shvalloc error handling
-    int* data_ptr = shvalloc(sizeof(int)*INIT_SIZE);
+    // int* data_ptr = shvalloc(sizeof(int)*INIT_SIZE);
+    int* data_ptr = malloc(sizeof(int)*INIT_SIZE);
     shvec_array[id] = (Shvector) {.size=0, .max_size=INIT_SIZE, .data=data_ptr};
     shvec_available[id] = 1;
     return id;
@@ -55,19 +56,23 @@ int shvec_expand(int id) {
     }
 
     shvec_array[id].max_size = shvec_array[id].max_size * GROWTH_FACTOR;
-    
+
     //todo: shvalloc error handling
-    // shvec_array[id].data = realloc(shvec_array[id].data, sizeof(int)*shvec_array[id].max_size);
-    shvec_array[id].data = shvalloc(sizeof(int)*shvec_array[id].max_size);
+    shvec_array[id].data = realloc(shvec_array[id].data, sizeof(int)*shvec_array[id].max_size);
+
+
+
+
+    // shvec_array[id].data = shvalloc(sizeof(int)*shvec_array[id].max_size);
     // shvec_array[id].size++;
 
     // populate new vector
-    for (int i = 0; i < old_size; i++) {
-        shvec_array[id].data[i] = old_data_ptr[i];
-    }
+    // for (int i = 0; i < old_size; i++) {
+    //     shvec_array[id].data[i] = old_data_ptr[i];
+    // }
     // shvec_array[id].data[old_size] = value;
 
-    shvfree(old_data_ptr);
+    // shvfree(old_data_ptr);
     return 0;
 }
 
@@ -81,9 +86,8 @@ int shvec_append(int id, int value){
         return 0;
     } else {
         shvec_expand(id);
-        shvec_array[id].data[shvec_array[id].size] = value;
         shvec_array[id].size++;
-
+        shvec_array[id].data[shvec_array[id].size] = value;
         return 0;
     }
 }
@@ -101,7 +105,6 @@ int shvec_set(int id, int index, int value){
             return 1;
         }
     }
-    // printf("SHVEC: setting shvec[%d][%d] to %d\n", id, index, value);
     shvec_array[id].data[index] = value;
     return 0;
 }
@@ -112,8 +115,6 @@ int shvec_set(int id, int index, int value){
 */
 
 int shvec_get(int id, int index){
-    // printf("SHVEC: getting [%d][%d]: %d (\\n: %d \\0:%d)\n", id, index, shvec_array[id].data[index], shvec_array[id].data[index] == '\n', shvec_array[id].data[index] == '\0');
-
     if(index > shvec_array[id].size){
         fprintf(stderr, "ERROR: getting outside of array size\n");
         return 0;
@@ -160,4 +161,8 @@ int shvec_get_size(int id) {
     }
 
     return shvec_array[id].size;
+}
+
+int* shvec_get_array(int id){
+    return shvec_array[id].data;
 }
