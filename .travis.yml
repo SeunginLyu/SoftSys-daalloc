@@ -1,5 +1,6 @@
 language: c
 compiler: gcc
+env: STDFLAGS="-std=c11"
 
 before_script: cd src
 
