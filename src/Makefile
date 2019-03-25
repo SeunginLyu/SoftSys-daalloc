@@ -1,4 +1,4 @@
-FLAGS = -Wall
+FLAGS = -Wall -std=c99
 
 all: shvec.out shvalloc.out regexlib.out
 
