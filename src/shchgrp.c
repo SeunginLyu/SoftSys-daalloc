@@ -18,7 +18,7 @@
 #include <unistd.h>
 #include <argp.h>
 
-int arg_parse(int argc, char* argv[]){
+int arg_parse(int argc, char *argv[]){
     // parse arguments
     char ch;
     while((ch = getopt(argc, argv, "")) != EOF){
@@ -33,9 +33,9 @@ int arg_parse(int argc, char* argv[]){
 int main(int argc, char *argv[]){
     int num_regexes = 0;
 
-    Regex ** regexes;
-    int * matches;
-    int * matches_i;
+    Regex **regexes;
+    int *matches;
+    int *matches_i;
 
 
     // Setup regexes and shvectors to hold matching strings

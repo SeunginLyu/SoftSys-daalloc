@@ -22,7 +22,7 @@ int shvec_available[MAX_SHVECS];
 int shvec_initialize(int id){
     //todo: shvalloc error handling
     // int* data_ptr = shvalloc(sizeof(int)*INIT_SIZE);
-    int* data_ptr = malloc(sizeof(int)*INIT_SIZE);
+    int *data_ptr = malloc(sizeof(int)*INIT_SIZE);
     shvec_array[id] = (Shvector) {.size=0, .max_size=INIT_SIZE, .data=data_ptr};
     shvec_available[id] = 1;
     return id;
@@ -60,9 +60,7 @@ int shvec_expand(int id) {
     //todo: shvalloc error handling
     shvec_array[id].data = realloc(shvec_array[id].data, sizeof(int)*shvec_array[id].max_size);
 
-
-
-
+    //// Alternate realloc implementation
     // shvec_array[id].data = shvalloc(sizeof(int)*shvec_array[id].max_size);
     // shvec_array[id].size++;
 
@@ -164,6 +162,6 @@ int shvec_get_size(int id) {
     return shvec_array[id].size;
 }
 
-int* shvec_get_array(int id){
+int *shvec_get_array(int id){
     return shvec_array[id].data;
 }
