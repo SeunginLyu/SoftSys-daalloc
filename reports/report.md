@@ -3,18 +3,16 @@ Matthew Beaudouin, Seungin Lyu, Adam Novotny
 
 ## A dynamically sized array for C.
 
-For this project, we implemented a dynamically sized vector `shvector`, running on a custom implementation of malloc called `shmalloc`. To show off the power of these tools we created `shchgrp`, an application that runs multiple regexes on a file and outputs the matches in separate lists.
-
-Currently `shmalloc` is a functional, though naive, re-implementation of `malloc`.
+For this project, we made three interconnected applications. We implemented a dynamically sized vector `shvector`, running on a custom implementation of malloc called `shmalloc`. To show off the power of these tools we created `shchgrp`, an application that runs multiple regexes on a file and outputs the matches in separate lists. All of these are functional and we have learned a lot from creating them.
 
 
-#### Our learning goals:
-- [x]Learn how malloc assigns system memory.
+#### Learning Goals
 - [x]Learn how to implement dynamic arrays from a low-level perspective
+- [x]Learn how malloc assigns system memory
 - [x]Learn how to design an effective library API
 - [x]Learn how to do testing and CI for a C codebase
 
-We have made significant progress towards meeting these initial goals as demonstrated in our final project status section. 
+We have made significant progress towards meeting these goals, as demonstrated in our final project status section. 
 
 ## Project Status (as of March 26):
 
@@ -23,19 +21,22 @@ We have made significant progress towards meeting these initial goals as demonst
 - We have designed an [API](https://github.com/SeunginLyu/SoftSys-daalloc/blob/master/spec.md) for shvector.
 - We have implemented our own `malloc` called [`shvalloc`](https://github.com/SeunginLyu/SoftSys-daalloc/blob/master/src/shvalloc.c) after following a [tutorial](https://danluu.com/malloc-tutorial/). We used the TDD (Test Driven Development) framework and wrote down [tests](https://github.com/SeunginLyu/SoftSys-daalloc/blob/master/src/test_shvalloc.c) before the implementation. 
 - We have setup up a CI (Continuous Integration) environment for the team which uses Github and TravisCI. It automatically runs tests whenever someone pushes the code to the online repository. Also, we have been adhering to the rule that a pull request must be reviewed and approved by at least one of the team members before it gets merged to master.
-- We have created a [`Makefile`](https://github.com/SeunginLyu/SoftSys-daalloc/blob/master/src/Makefile) that links the relevant components together. 
-- We wrote unit tests for `shvector`
-- `shvector` uses `shvalloc` instead of `malloc`, and everything works!
+- We have created a [`Makefile`](https://github.com/SeunginLyu/SoftSys-daalloc/blob/master/src/Makefile) that links the relevant components together.
+- We have travisCI run all tests when submitting a pull request, and it blocks merging when tests fail.
+- We also created a git workflow that requires a code review and approval from a second person before merging into master.
+- We wrote unit tests for `shvector` and `shvalloc`
+- `shvector` uses `shvalloc` instead of `malloc`, and everything works (which we know because of our tests)!
 - We made a demo app `shchgrp` that uses `shvectors` to match multiple regexes against stdin.
 
-\< Needs update: \>
-##### What we had planned but haven't done yet
+##### What we had planned but haven't done yet (Todo: update these)
 - We will update shvalloc so that it passes all the tests. It currently does not pass the test when the size is `MAX_SIZE`. It should return NULL but now it returns an address.
 - Stretch:
     - Implement chunking to `shvector` to optimize it for `shvalloc`
     - Run performance comparisons of `shvector` vs `array` and `shchgrep` vs multiple `grep`s
 
 ## Shvector:
+The first project we 
+
 #### Implementation
 A Shvector holds three values:
 ```
@@ -76,16 +77,21 @@ int shvec_get(int id, int index);               // Gets the value at 'index' of 
 int shvec_free(int id);
 ```
 
+These four functions are all you need to use shvectors to store data.
 
+Internally, if it needs to write past the current size, `shvec_set()` calls `shvec_append()` to pad the array with 0s and increment `size`. `shvec_append()` checks if it has reached `max_size` and calls `shvec_expand()` (which resizes the shvector) if necessary.
 
 #### Design Decisions
 We designed the api to address shvectors with a unique id (which increments from 0). We hold all shvectors in an array, and the id corresponds to the index of the shvector in that array.
 
-There are a few advantages to this approach, mainly that it was easy to implement. It hides the actual data from the rest of the application, forcing programmers to use the api, and it keeps track of the memory locations internally, so memory can never be lost.
+There are a few advantages to this approach, mainly that it was easy to implement. It hides the data location from the rest of the application, forcing programmers to use the api, and it keeps track of the memory locations internally, so memory can never be lost.
 
-There are two main disadvantages to this approach, there are a limited number of shvectors the application can use, and it must pre-allocate memory for all shvectors. Fortunately each shvector is only 16 bytes, so allocating 128 shvectors consumes 'only' 2kB of memory. The better way to do this would be to use a root shvector to hold all other shvectors, which would address both problems but add complexity to the library.
+There are two main disadvantages to this approach. There are a limited number of shvectors the application can use, and it must pre-allocate memory for all shvectors. Fortunately each shvector is only 16 bytes, so allocating 128 shvectors consumes 'only' 2kB of memory. The better way to do this would be to use a root shvector to hold all other shvectors, which would address both problems but add complexity to the library.
 
 Another way we considered addressing new shvectors was to allocate memory for each shvector independently, and then refer to it by its memory address. The disadvantage to this is that we would have to change the api from using `int id` to `long id`. We would also expose the data to the programmers, which might make them misuse the library and be sad if we introduce breaking changes internally.
+
+#### Outcome
+
 
 
 ## Shmalloc:
@@ -95,7 +101,7 @@ Another way we considered addressing new shvectors was to allocate memory for ea
 ## Shchgrp:
 To demo our `shvector` library, we made a command-line tool called `shchgrp` (**sh**itty **ch**ained **gr**e**p**) which returns lists of the values matching each regex.
 
-#### Example:
+#### Example
 ```
 printf "abc\n123\n456def" | shchgrp "[0-9]" "[a-z]"
 Matches to [0-9]:
@@ -106,7 +112,7 @@ Matches to [a-z]:
     456def
 ```
 
-#### Implementation:
+#### Implementation
 First, shchgrp sets up a shvector for each regex, and then iterates through stdin line-by-line. Each line is compared against all regexes, and any matches are stored in the respective shvector (delimited by `\n`). After reaching the EOF, each shvector is printed to stdout.
 
 
