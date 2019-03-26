@@ -14,7 +14,7 @@ Currently `shmalloc` is a functional, though naive, re-implementation of `malloc
 - [x]Learn how to design an effective library API
 - [x]Learn how to do testing and CI for a C codebase
 
-We have made significant progress towards meeting these initial goals as demonstrated in our project status section. 
+We have made significant progress towards meeting these initial goals as demonstrated in our final project status section. 
 
 ## Project Status (as of March 26):
 
@@ -28,7 +28,7 @@ We have made significant progress towards meeting these initial goals as demonst
 - `shvector` uses `shvalloc` instead of `malloc`, and everything works!
 - We made a demo app `shchgrp` that uses `shvectors` to match multiple regexes against stdin.
 
-
+\< Needs update: \>
 ##### What we had planned but haven't done yet
 - We will update shvalloc so that it passes all the tests. It currently does not pass the test when the size is `MAX_SIZE`. It should return NULL but now it returns an address.
 - Stretch:
