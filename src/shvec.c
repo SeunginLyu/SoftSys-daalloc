@@ -71,23 +71,21 @@ int shvec_expand(int id) {
     // shvec_array[id].data[old_size] = value;
 
     // shvfree(old_data_ptr);
-    return 0;
+    return shvec_array[id].data;
 }
 
 /*
  * Appends a value to the shvec, reallocates the array if necessary
  */
 int shvec_append(int id, int value){
-    if(shvec_array[id].size < shvec_array[id].max_size){
-        shvec_array[id].size++;
-        shvec_array[id].data[shvec_array[id].size] = value;
-        return 0;
-    } else {
-        shvec_expand(id);
-        shvec_array[id].size++;
-        shvec_array[id].data[shvec_array[id].size] = value;
-        return 0;
+    shvec_array[id].size += 1;
+
+    while(shvec_array[id].size > shvec_array[id].max_size-1){
+        int* new_data_arr = shvec_expand(id);
     }
+
+    shvec_array[id].data[shvec_array[id].size] = value;
+    return 0;
 }
 
 /*
@@ -127,7 +125,8 @@ int shvec_get(int id, int index){
  */
 int shvec_free(int id) {
     if(shvec_available[id] == 1){
-        shvfree(shvec_array[id].data);
+        // shvfree(shvec_array[id].data);
+        free(shvec_array[id].data);
         shvec_available[id] = 0;
         return 0;
     } else {

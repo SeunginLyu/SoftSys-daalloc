@@ -1,4 +1,5 @@
 # daalloc
+
 #### Software Systems, Olin College of Engineering, SP19
 #### Matthew Beaudouin-Lafon, Seungin Lyu, Adam Novotny 
 
@@ -23,6 +24,7 @@ We did most of our work together through pair programming. We often used the Liv
 The original idea for the project was to write a version of malloc specifically designed for an application. We decided to choose dynamic vectors as it seemed like ripe with memory allocations opportunities. We modelled shvec after the C++ vector class, which automatically "grows" when a value is written past its largest index.
 
 ### Implementation
+
 A Shvector holds three values:
 ```
 typedef struct {
@@ -68,7 +70,6 @@ Internally, if it needs to write past the current size, `shvec_set()` calls `shv
 
 ### Design Decisions
 An important design decision was to make the library robust and minimize the user's ability to misuse it. For example, if the user treated it like a standard array, when writing past the last element they would write to arbitrary memory instead of growing the array. 
-
 We designed the api to address shvectors with a unique id (which increments from 0). We hold all shvectors in an array, and the id corresponds to the index of the shvector in that array.
 
 There are a few advantages to this approach, mainly that it was easy to implement. It hides the data location from the rest of the application, forcing programmers to use the api, and it keeps track of the memory locations internally, so memory can never be lost.
@@ -122,6 +123,7 @@ To demo our `shvector` library, we made a command-line tool called `shchgrp` (**
 ### Example
 
 Below is the code snippet that demonstrates what our `shchgrp` can do. 
+
 ```
 printf "abc\n123\n456def" | shchgrp "[0-9]" "[a-z]"
 Matches to [0-9]:
@@ -131,7 +133,6 @@ Matches to [a-z]:
     abc
     456def
 ```
-
 ### Implementation
 First, shchgrp sets up a shvector for each regex (so from the example `[0-9]` and `[a-z]` will each have a shvector that dynamically grows), and then iterates through `stdin` line-by-line. Each line is compared against all regexes provided, and any matches are stored in the respective shvector (delimited by `\n`). After reaching the EOF, each shvector is printed to stdout.
 
