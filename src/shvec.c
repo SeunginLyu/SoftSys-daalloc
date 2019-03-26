@@ -128,7 +128,8 @@ int shvec_get(int id, int index){
 */
 int shvec_free(int id) {
     if(shvec_available[id] == 1){
-        shvfree(shvec_array[id].data);
+        // shvfree(shvec_array[id].data);
+        free(shvec_array[id].data);
         shvec_available[id] = 0;
         return 0;
     } else {
