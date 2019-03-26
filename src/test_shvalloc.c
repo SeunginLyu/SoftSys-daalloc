@@ -29,8 +29,8 @@ static char *test_size_of_allocated_space() {
 
 static char *test_no_duplicate_address() {
     puts("Testing no duplicate address");
-    int* a = shvalloc(sizeof(int));
-    int* b = shvalloc(sizeof(int));
+    int *a = shvalloc(sizeof(int));
+    int *b = shvalloc(sizeof(int));
     char *message = "    shvalloc should not allocate the same address twice, Expected a !=b";
     mu_assert(message, a != b);
     puts("    passed\n");
@@ -46,7 +46,7 @@ uint64_t getsp( void )
 }
 static char *test_address_lower_than_stack_pointer() {
     puts("Testing address lower than stack pointer");
-    int* a = shvalloc(sizeof(int));
+    int *a = shvalloc(sizeof(int));
     uint64_t sp= getsp();
     char *message = "    shvalloc should return address lower than that of the stack pointer";
     mu_assert(message, a < (int*)&sp);
@@ -55,7 +55,7 @@ static char *test_address_lower_than_stack_pointer() {
 }
 static char *test_size_max(){
     puts("Testing size max");
-    int* a = shvalloc(SIZE_MAX);
+    int *a = shvalloc(SIZE_MAX);
     // printf("%p\n", a);
     char *message = "    shvalloc(SIZE_MAX) should return NULL";
     mu_assert(message, a == NULL);
@@ -64,7 +64,7 @@ static char *test_size_max(){
 }
 static char *test_size_zero(){
     puts("Testing size zero");
-    int* a = shvalloc(0);
+    int *a = shvalloc(0);
     char *message = "    shvalloc(0) should return NULL";
     mu_assert(message, a == NULL);
     puts("    passed\n");
@@ -73,16 +73,16 @@ static char *test_size_zero(){
 
 static char *test_mem_reuse() {
     puts("Testing mem reuse");
-    int* a = shvalloc(sizeof(int));
+    int *a = shvalloc(sizeof(int));
     shvfree(a);
-    int* b = shvalloc(sizeof(int));
+    int *b = shvalloc(sizeof(int));
     char *message = "    re allocating does not re-use available space";
     mu_assert(message, a == b);
     puts("    passed\n");
     return NULL;
 }
 
-static char * all_tests() {
+static char *all_tests() {
 
     mu_run_test(test_size_of_allocated_space);
     mu_run_test(test_no_duplicate_address);
