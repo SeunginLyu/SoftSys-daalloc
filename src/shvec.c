@@ -29,7 +29,7 @@ int shvec_initialize(int id){
 }
 /*
  * Creates a new Shvec
- * Returns a new Shvec id
+ * Returns a new Shvec id (Returns -1 on failure)
  */
 int shvec_create(){
     int id;
@@ -93,8 +93,9 @@ int shvec_append(int id, int value){
 }
 
 /*
-* Sets a value at index in the shvec with id
-* Appends 0s if the index is larger than the current size
+ * Sets a value at index in the shvec with id
+ * Appends 0s if the index is larger than the current size
+ * Returns 0 on success and 1 on failure
  */
 
 int shvec_set(int id, int index, int value){
@@ -110,9 +111,9 @@ int shvec_set(int id, int index, int value){
 }
 
 /*
-* Returns the value at index of shvec id
-* If out of bounds, returns 0
-*/
+ * Returns the value at 'index' of shvec 'id'
+ * If out of bounds, returns 0
+ */
 
 int shvec_get(int id, int index){
     if(index > shvec_array[id].size){
@@ -123,9 +124,9 @@ int shvec_get(int id, int index){
 }
 
 /*
-* Frees the shvec with given id from heap
-* Returns 0 on success, -1 on error
-*/
+ * Frees the shvec with given 'id' from heap
+ * Returns 0 on success, -1 on error
+ */
 int shvec_free(int id) {
     if(shvec_available[id] == 1){
         shvfree(shvec_array[id].data);
