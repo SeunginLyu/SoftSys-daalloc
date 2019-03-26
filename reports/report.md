@@ -1,6 +1,6 @@
 # daalloc
 #### Software Systems, Olin College of Engineering, SP19
-#### Matthew Beaudouin, Seungin Lyu, Adam Novotny 
+#### Matthew Beaudouin-Lafon, Seungin Lyu, Adam Novotny 
 
 
 ## A dynamically sized array for C.
@@ -17,7 +17,7 @@ For this project, we made three interconnected applications. We implemented a dy
 
 
 ## Project Workflow
-We did most of our work together through pair programming. We often used the Live Share extension of Visual Studio Code on Seungin's machine. So the commit history is not the most accurate representation of each member's contribution to this project. We believe the Trello board is a better source of our contribution history. We followed the TDD principles throughout the course of this project. We made sure each pull request gets at least one peer review and an approval before it gets merged to master. Adhering to a rather strict integration rules for a small project, we learned that such restrictions help us stay in tuned with each other's contribution and made sure everyone in the team was fully aware of the team's ongoing process.
+We did most of our work together through pair programming. We often used the Live Share extension of Visual Studio Code on Seungin's machine to pair program (in part due to Matt's issues with RSI). So the commit history is not the most accurate representation of each member's contribution to this project. We believe the Trello board is a better source of our contribution history. We followed the TDD principles throughout the course of this project. We made sure each pull request gets at least one peer review and an approval before it gets merged to master. Adhering to a rather strict integration rules for a small project, we learned that such restrictions help us stay in tuned with each other's contribution and made sure everyone in the team was fully aware of the team's ongoing process.
 
 ## Shvector:
 The original idea for the project was to write a version of malloc specifically designed for an application. We decided to choose dynamic vectors as it seemed like ripe with memory allocations opportunities. We modelled shvec after the C++ vector class, which automatically "grows" when a value is written past its largest index.
@@ -163,6 +163,7 @@ First, shchgrp sets up a shvector for each regex (so from the example `[0-9]` an
 We have made a solid progress towards our original goals of this project, as demonstrated in our project outcome section. It should be noted that we were more interested in the learning outcomes than the project results.
 The main problem with our project as it stands is that we were not able to make shvec use shvalloc, perhaps mostly because we were not able to test shvalloc as well as we would like (for instance, there is no good way to test whether free works, let alone shvfree). Additionally, debugging memory allocation is rather difficult. While we got better at it with this project, we weren't able to fix the particular bug with shvrealloc as it seems to pertain to subtleties around sbrk (which happens to be deprecated on OSX, which might be part of the problem). In retrospect, we could have spent more time making sure that our memory allocation was rock solid before moving to applications.
 One interesting aspect of this project was planning. We started with a general direction for the project, but consistently adapted what we chose to do based on our learning goals and feasibility. This "freeform jazz" approach to project definition was helpful to get the most learning out of our project (for example by leading our focus towards workflow), but was not as effective towards making a working or novel project. This feels right for a mid-semester project, and all told we feel like we learned what we set out to learn. 
+As we had expected, Trello was not a very helpful planning tool. For a small project like this with biweekly meetings, work getting done during those meetings, and project direction changing often, it was easier to hold what needs to get done in our heads than to deal with the additional overhead of updating the board.
 
 ## Resources:
 
