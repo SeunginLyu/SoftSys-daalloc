@@ -1,3 +1,4 @@
+#include <unistd.h>
 #define META_SIZE sizeof(struct block_meta)
 
 void shvfree(void *ptr);

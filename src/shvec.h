@@ -7,3 +7,5 @@ int shvec_create();
 int shvec_set(int id, int index, int value);
 int shvec_get(int id, int index);
 int shvec_free(int id);
+int shvec_is_available(int id);
+int shvec_get_size(int id);
