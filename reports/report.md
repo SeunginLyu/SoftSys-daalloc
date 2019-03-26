@@ -37,13 +37,20 @@ We have made significant progress towards meeting these initial goals as demonst
 
 ## Shvector:
 #### Implementation
-Shvecs are stored as arrays on the heap. It starts with a small size, and after it fills up it reallocates space for a larger array.
+A Shvector holds three values:
+```
+typedef struct {
+    int size;       // number of initialized values
+    int max_size;   // currently allocated space
+    int *data;      // array of values
+} Shvector;
+```
 
-A Shvector holds three types
+The data array is initialized with a small size. After it fills up it is reallocated to twice its current size, and max_size is updated.
 
-We picked 2 as a growth factor after comparing other implementations. Most dynamically sized lists use 2 as a growth factor, though there were some arguments for 1.25 and 1.5. We decided that unused memory is not that big of an issue and went with the standard 2.
+We picked 2 as a growth factor after comparing other implementations. Most dynamically sized lists use 2 as a growth factor, though there were some arguments for 1.25 and 1.5 being 'optimal'. We decided that unused memory is not that big of an issue and went with the standard 2.
 
-#### Design Decision
+#### Design Decisions
 We designed the api to address shvectors with a unique id (which increments from 0). We hold all shvectors in an array, and the id corresponds to the index of the shvector in that array.
 
 There are a few advantages to this approach, mainly that it was easy to implement. It hides the actual data from the rest of the application, forcing programmers to use the api, and it keeps track of the memory locations internally, so memory can never be lost.
