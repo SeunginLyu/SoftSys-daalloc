@@ -29,7 +29,7 @@ int shvec_initialize(int id){
 }
 /*
  * Creates a new Shvec
- * Returns a new Shvec id
+ * Returns a new Shvec id (Returns -1 on failure)
  */
 int shvec_create(){
     int id;
@@ -61,8 +61,6 @@ int shvec_expand(int id) {
     shvec_array[id].data = realloc(shvec_array[id].data, sizeof(int)*shvec_array[id].max_size);
 
 
-
-
     // shvec_array[id].data = shvalloc(sizeof(int)*shvec_array[id].max_size);
     // shvec_array[id].size++;
 
@@ -73,28 +71,27 @@ int shvec_expand(int id) {
     // shvec_array[id].data[old_size] = value;
 
     // shvfree(old_data_ptr);
-    return 0;
+    return shvec_array[id].data;
 }
 
 /*
  * Appends a value to the shvec, reallocates the array if necessary
  */
 int shvec_append(int id, int value){
-    if(shvec_array[id].size < shvec_array[id].max_size){
-        shvec_array[id].size++;
-        shvec_array[id].data[shvec_array[id].size] = value;
-        return 0;
-    } else {
-        shvec_expand(id);
-        shvec_array[id].size++;
-        shvec_array[id].data[shvec_array[id].size] = value;
-        return 0;
+    shvec_array[id].size += 1;
+
+    while(shvec_array[id].size > shvec_array[id].max_size-1){
+        int* new_data_arr = shvec_expand(id);
     }
+
+    shvec_array[id].data[shvec_array[id].size] = value;
+    return 0;
 }
 
 /*
-* Sets a value at index in the shvec with id
-* Appends 0s if the index is larger than the current size
+ * Sets a value at index in the shvec with id
+ * Appends 0s if the index is larger than the current size
+ * Returns 0 on success and 1 on failure
  */
 
 int shvec_set(int id, int index, int value){
@@ -110,9 +107,9 @@ int shvec_set(int id, int index, int value){
 }
 
 /*
-* Returns the value at index of shvec id
-* If out of bounds, returns 0
-*/
+ * Returns the value at 'index' of shvec 'id'
+ * If out of bounds, returns 0
+ */
 
 int shvec_get(int id, int index){
     if(index > shvec_array[id].size){
@@ -123,9 +120,9 @@ int shvec_get(int id, int index){
 }
 
 /*
-* Frees the shvec with given id from heap
-* Returns 0 on success, -1 on error
-*/
+ * Frees the shvec with given 'id' from heap
+ * Returns 0 on success, -1 on error
+ */
 int shvec_free(int id) {
     if(shvec_available[id] == 1){
         // shvfree(shvec_array[id].data);

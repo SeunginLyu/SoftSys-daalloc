@@ -47,7 +47,7 @@ static char *test_shvec() {
     mu_assert(message, size == 5);
     puts("    passed\n");
 
-    puts("Testing Resizing");
+    puts("Testing Resize 1");
     shvec_set(my_shvec, 11, 5);
     int s = shvec_get_size(my_shvec);
     int k = shvec_get(my_shvec, 11);
@@ -55,6 +55,25 @@ static char *test_shvec() {
     mu_assert(message, k == 5);
     message = "    shvec_set(my_shvec, 11, 5) shvec_get(my_shvec,11) should return size of 11";
     mu_assert(message, s == 11);
+    shvec_set(my_shvec, 35, 5);
+    message = "    shvec_set(my_shvec, 35, 5) shvec_get(my_shvec,35) should return 5";
+    mu_assert(message, shvec_get(my_shvec,35) == 5);
+
+    puts("    passed\n");
+
+    puts("Testing Resize 2");
+    int my_shvec2 = shvec_create();
+    message = "    shvec should not update after expand";
+    for(int i=0;i<200;i++){
+        // printf("setting %d\n",i);        
+        shvec_set(my_shvec2, i, i);
+    }
+    int get_val;
+    for(int i=0;i<200;i++){
+        get_val = shvec_get(my_shvec2, i);
+        // printf("getting %d (%d)\n",i, get_val);
+        mu_assert(message, get_val == i);
+    }
     puts("    passed\n");
 
     puts("Checking if shvec is available.");
