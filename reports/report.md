@@ -46,9 +46,37 @@ typedef struct {
 } Shvector;
 ```
 
-The data array is initialized with a small size. After it fills up it is reallocated to twice its current size, and max_size is updated.
+The data array is initialized with a small size. After it fills up, memory twice its current size is reallocated for it. We picked 2 as a growth factor after comparing other implementations. Most dynamically sized lists use 2 as a growth factor, though there were some arguments for 1.25 and 1.5 being 'optimal'. We decided that unused memory is not that big of an issue and went with the standard 2.
 
-We picked 2 as a growth factor after comparing other implementations. Most dynamically sized lists use 2 as a growth factor, though there were some arguments for 1.25 and 1.5 being 'optimal'. We decided that unused memory is not that big of an issue and went with the standard 2.
+The api is defined with these four functions:
+```
+/*
+ * Creates a new Shvec
+ * Returns a new Shvec id (Returns -1 on failure)
+ */
+int shvec_create();
+
+/*
+ * Sets the value at 'index' in the shvec with 'id' to 'value'
+ * Appends 0s if the index is larger than the current size
+ * Returns 0 on success and 1 on failure
+ */
+int shvec_set(int id, int index, int value);
+
+/*
+* Returns the value at 'index' of shvec 'id'
+* If out of bounds, returns 0
+*/
+int shvec_get(int id, int index);               // Gets the value at 'index' of shvector 'id' (Returns int value, or 0 on failure)
+
+/*
+ * Frees the shvec with given 'id' from heap
+ * Returns 0 on success, -1 on error
+ */
+int shvec_free(int id);
+```
+
+
 
 #### Design Decisions
 We designed the api to address shvectors with a unique id (which increments from 0). We hold all shvectors in an array, and the id corresponds to the index of the shvector in that array.
